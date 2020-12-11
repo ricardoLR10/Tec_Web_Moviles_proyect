@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+    crossorigin="anonymous"></script>
+    <title>Notificaciones</title>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="../index.html">Regresar</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+
+            </div>
+        </div>
+    </nav>
+
+    <button onclick="mostrarNotificacion()">Mostrar notificación</button>
+    <p id="txtMensaje"></p>
+    <script>
+        function mostrarNotificacion() {
+            var txtMensaje = document.getElementById("txtMensaje");
+            if (!window.Notification) {
+                txtMensaje.innerText = "No es compatible tu navegador";
+            }
+            Notification.requestPermission(function (status) {
+                if (Notification.permission !== status) {
+                    Notification.permission = status;
+                }
+
+                if (Notification.permission == "granted") {
+                    var n = new Notification("Hola mundo!", {
+                        body: "Esta es una notificación",
+                        icon: "https://e7.pngegg.com/pngimages/915/586/png-clipart-computer-icons-user-profile-icon-design-ico-profile-silhouette-profile-thumbnail.png",
+                        image: "https://ecosistemas.ovacen.com/wp-content/uploads/2018/01/bosque-1280x720.jpg",
+                        vibrate: [200, 100],
+                        data: { userId: 1235, mensaje: "Este es el mensaje" },
+
+                    });
+
+                    n.onclick = (args) => {
+                        alert("Se le dio click");
+                        console.log(args.currentTarget.data);
+                    }
+                } else {
+                    txtMensaje.innerText = "No tienes permiso para mandar notifiaciones";
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>
